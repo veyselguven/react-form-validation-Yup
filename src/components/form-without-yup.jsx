@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import { useState } from "react";
 
 const FormWithoutYup = () => {
@@ -8,25 +7,27 @@ const FormWithoutYup = () => {
     email: "",
     phoneNumber: "",
     password: "",
-    confrimPassword: "",
+    confirmPassword: "",
     age: "",
     gender: "",
     interests: [],
     birthDate: "",
   });
-  const [errors, setErrors] = useState();
+
+  const [errors, setErrors] = useState({});
 
   const isValidEmail = (email) => {
-    // regular expression for basic email validation
+    // Regular expression for basic email validation
     const emailRegex = /^\S+@\S+\.\S+$/;
     return emailRegex.test(email);
   };
 
   const isValidPhoneNumber = (phoneNumber) => {
-    // regular expression for basic phone number validation (10 digit)
+    // Regular expression for basic phone number validation (10 digits)
     const phoneRegex = /^\d{10}$/;
     return phoneRegex.test(phoneNumber);
   };
+
   const isValidPassword = (password) => {
     // Regular expressions for password validation
     const symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -41,6 +42,7 @@ const FormWithoutYup = () => {
       lowerCaseRegex.test(password)
     );
   };
+
   const isValidAge = (age) => {
     return parseInt(age) >= 18 && parseInt(age) <= 100;
   };
@@ -97,6 +99,7 @@ const FormWithoutYup = () => {
   };
 
   console.log(errors);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -111,7 +114,10 @@ const FormWithoutYup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData({ ...formData, [name]: value });
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleCheckboxChange = (e) => {
@@ -121,9 +127,10 @@ const FormWithoutYup = () => {
       updatedInterests.push(name);
     } else {
       updatedInterests = updatedInterests.filter(
-        (interests) => interests !== name
+        (interest) => interest !== name
       );
     }
+
     setFormData({
       ...formData,
       interests: updatedInterests,
@@ -141,6 +148,7 @@ const FormWithoutYup = () => {
           placeholder="Enter your first name"
           onChange={handleChange}
         />
+        {errors.firstName && <div className="error">{errors.firstName}</div>}
       </div>
       <div>
         <label>Last Name:</label>
@@ -151,6 +159,7 @@ const FormWithoutYup = () => {
           placeholder="Enter your last name"
           onChange={handleChange}
         />
+        {errors.lastName && <div className="error">{errors.lastName}</div>}
       </div>
       <div>
         <label>Email:</label>
@@ -161,6 +170,7 @@ const FormWithoutYup = () => {
           placeholder="Enter your email"
           onChange={handleChange}
         />
+        {errors.email && <div className="error">{errors.email}</div>}
       </div>
       <div>
         <label>Phone Number:</label>
@@ -168,9 +178,12 @@ const FormWithoutYup = () => {
           type="text"
           name="phoneNumber"
           value={formData.phoneNumber}
-          placeholder="Enter phone number "
+          placeholder="Enter your phone number"
           onChange={handleChange}
         />
+        {errors.phoneNumber && (
+          <div className="error">{errors.phoneNumber}</div>
+        )}
       </div>
       <div>
         <label>Password:</label>
@@ -178,40 +191,48 @@ const FormWithoutYup = () => {
           type="password"
           name="password"
           value={formData.password}
-          placeholder="Enter password "
+          placeholder="Enter your password"
           onChange={handleChange}
         />
+        {errors.password && <div className="error">{errors.password}</div>}
       </div>
       <div>
-        <label>Confrim Password:</label>
+        <label>Confirm Password:</label>
         <input
           type="password"
-          name="confrimPassword"
-          value={formData.confrimPassword}
-          placeholder="confrim your Password "
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          placeholder="Confirm your password"
           onChange={handleChange}
         />
+        {errors.confirmPassword && (
+          <div className="error">{errors.confirmPassword}</div>
+        )}
       </div>
       <div>
-        <label>Age :</label>
+        <label>Age:</label>
         <input
           type="number"
           name="age"
           value={formData.age}
-          placeholder="Enter your age "
+          placeholder="Enter your age"
           onChange={handleChange}
         />
+        {errors.age && <div className="error">{errors.age}</div>}
       </div>
+
       <div>
         <label>Gender:</label>
         <select name="gender" value={formData.gender} onChange={handleChange}>
-          <option value="male"> Male</option>
-          <option value="female"> Female</option>
-          <option value="other"> Other</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
         </select>
+        {errors.gender && <div className="error">{errors.gender}</div>}
       </div>
+
       <div>
-        <label> Interests: </label>
+        <label>Interests:</label>
         <label>
           <input
             type="checkbox"
@@ -239,6 +260,7 @@ const FormWithoutYup = () => {
           />
           Reading
         </label>
+        {errors.interests && <div className="error">{errors.interests}</div>}
       </div>
       <div>
         <label>Date of Birth:</label>
@@ -249,6 +271,7 @@ const FormWithoutYup = () => {
           placeholder="Enter your date of birth"
           onChange={handleChange}
         />
+        {errors.birthDate && <div className="error">{errors.birthDate}</div>}
       </div>
       <button type="submit">Submit</button>
     </form>
